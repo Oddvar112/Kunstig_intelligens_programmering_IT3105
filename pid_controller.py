@@ -4,6 +4,9 @@ class PIDController:
     
     def __init__(self, kp=1.0, ki=0.1, kd=0.01):
         self.params = jnp.array([kp, ki, kd])
+        
+    def reset(self):
+        pass  
     
     def get_params(self):
         return self.params
