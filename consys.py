@@ -1,0 +1,3 @@
+
+class CONSYS:
+    pass
