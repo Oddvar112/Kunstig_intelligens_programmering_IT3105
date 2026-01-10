@@ -26,7 +26,7 @@ class CONSYS:
             u = self.controller.compute_control(error_history)
             d = noise[t]
             
-            # Pass state eksplisitt - JAX kan trace!
+            # JAX kan trace med state sendt inn
             output, error, state = self.plant.step(u, d, state)
             error_history.append(error)
         
@@ -52,11 +52,7 @@ class CONSYS:
         grad_fn = jax.grad(self.loss_function)
         
         for epoch in range(self.config.num_epochs):
-            noise = np.random.uniform(
-                self.config.noise_range[0],
-                self.config.noise_range[1],
-                size=self.config.num_timesteps
-            )
+            noise = np.random.uniform(self.config.noise_range[0],self.config.noise_range[1],size=self.config.num_timesteps)
             
             mse = self.loss_function(params, noise)
             grads = grad_fn(params, noise)
