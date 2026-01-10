@@ -7,7 +7,7 @@ class Plant(ABC):
         pass
     
     @abstractmethod
-    def step(self, u, d):
+    def step(self, u, d, state=None):
         pass
     
     @abstractmethod
