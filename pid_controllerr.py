@@ -21,13 +21,13 @@ class PIDController:
         # Integral
         E_integral = jnp.sum(jnp.array(error_history))
         
-        # Derivative 
+        # deriverte 
         if len(error_history) > 1:
             E_derivative = error_history[-1] - error_history[-2]
         else:
             E_derivative = 0.0
         
-        # PID formula
+        # PID formel
         U = kp * E + ki * E_integral + kd * E_derivative
         
         return U
