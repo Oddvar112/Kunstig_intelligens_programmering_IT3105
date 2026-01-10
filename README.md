@@ -1,1 +1,1 @@
-# Kunstig_intelligens_programmering_IT3105_
+# Kunstig_intelligens_programmering_IT3105
