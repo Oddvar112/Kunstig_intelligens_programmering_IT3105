@@ -2,6 +2,7 @@ import jax
 import jax.numpy as jnp
 from jax import grad
 import numpy as np
+from nn_pid_controller import NeuralPIDController
 
 class CONSYS:
     
@@ -9,14 +10,11 @@ class CONSYS:
         self.controller = controller
         self.plant = plant
         self.config = config
+        self.is_neural = isinstance(controller, NeuralPIDController)
     
     def run_epoch(self, params, noise):
         self.controller.set_params(params)
-        self.controller.reset()
-        
-        # Få initial state fra plant
         state = self.plant.reset()
-        
         error_history = []
         
         for t in range(self.config.num_timesteps):
@@ -25,25 +23,18 @@ class CONSYS:
             
             u = self.controller.compute_control(error_history)
             d = noise[t]
-            
-            # JAX kan trace med state sendt inn
             output, error, state = self.plant.step(u, d, state)
             error_history.append(error)
         
         errors = jnp.array(error_history[1:])
         mse = jnp.mean(errors ** 2)
-        
         return mse
     
     def loss_function(self, params, noise):
-        mse = self.run_epoch(params, noise)
-        return mse
+        return self.run_epoch(params, noise)
     
     def train(self):
         params = self.controller.get_params()
-        
-        print(f"Initial params: kp={params[0]:.4f}, ki={params[1]:.4f}, kd={params[2]:.4f}")
-        
         mse_history = []
         kp_history = []
         ki_history = []
@@ -57,25 +48,35 @@ class CONSYS:
             mse = self.loss_function(params, noise)
             grads = grad_fn(params, noise)
             
-           
-            print(f"Epoch {epoch}: MSE={mse:.6f}, grads={grads}")
-            
-            params = params - self.config.learning_rate * grads
+            # Oppdater basert på type
+            if self.is_neural:
+                # NN
+                print(f"Epoch {epoch}: MSE={mse:.6f}")
+                new_params = []
+                for layer_params, layer_grads in zip(params, grads):
+                    new_layer = {
+                        'w': layer_params['w'] - self.config.learning_rate * layer_grads['w'],
+                        'b': layer_params['b'] - self.config.learning_rate * layer_grads['b']
+                    }
+                    new_params.append(new_layer)
+                params = new_params  
+            else:
+                # normal
+                print(f"Epoch {epoch}: MSE={mse:.6f}, grads={grads}")
+
+                params = params - self.config.learning_rate * grads
+                kp_history.append(float(params[0]))
+                ki_history.append(float(params[1]))
+                kd_history.append(float(params[2]))
             
             mse_history.append(float(mse))
-            kp_history.append(float(params[0]))
-            ki_history.append(float(params[1]))
-            kd_history.append(float(params[2]))
-        
-        print(f"Final params: kp={params[0]:.4f}, ki={params[1]:.4f}, kd={params[2]:.4f}")
         
         self.controller.set_params(params)
         
-        results = {
-            'mse_history': mse_history,
-            'kp_history': kp_history,
-            'ki_history': ki_history,
-            'kd_history': kd_history
-        }
+        results = {'mse_history': mse_history}
+        if not self.is_neural:
+            results['kp_history'] = kp_history
+            results['ki_history'] = ki_history
+            results['kd_history'] = kd_history
         
         return results
