@@ -1,6 +1,6 @@
 import jax
 import jax.numpy as jnp
-
+#https://www.youtube.com/watch?v=Oieh4YFZZz0
 class NeuralPIDController:
     def __init__(self, layers=[3, 8, 8, 1], activation='tanh'):
         self.layers = layers
