@@ -3,7 +3,7 @@ import jax.numpy as jnp
 class PIDController:
     
     def __init__(self, kp=1.0, ki=0.1, kd=0.01):
-        self.params = jnp.array([kp, ki, kd])
+        self.params = jnp.array([kp, ki, kd], dtype=jnp.float32)  
         
     def reset(self):
         pass  
@@ -32,5 +32,4 @@ class PIDController:
         
         # PID formel
         U = kp * E + ki * E_integral + kd * E_derivative
-        
         return U
