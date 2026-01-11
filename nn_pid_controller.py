@@ -1,6 +1,8 @@
 import jax
 import jax.numpy as jnp
+
 #https://www.youtube.com/watch?v=Oieh4YFZZz0
+
 class NeuralPIDController:
     def __init__(self, layers=[3, 8, 8, 1], activation='tanh'):
         self.layers = layers
@@ -18,17 +20,13 @@ class NeuralPIDController:
         
         key = jax.random.PRNGKey(0)
         
-        for fan_in, fan_out in zip(layers[:-1], layers[1:]):
+        for i in range(len(layers) - 1):
+            dimInput = layers[i]
+            dimOutput = layers[i + 1]
+            
             key, wkey = jax.random.split(key)
-            
-            W = jax.random.uniform(
-                wkey,
-                (fan_in, fan_out),
-                minval=-0.5,
-                maxval=0.5
-            )
-            
-            b = jnp.zeros(fan_out)
+            W = jax.random.uniform(wkey, (dimInput, dimOutput), minval=-0.5, maxval=0.5)
+            b = jnp.zeros(dimOutput)
             
             self.weight_matrices.append(W)
             self.bias_vectors.append(b)
