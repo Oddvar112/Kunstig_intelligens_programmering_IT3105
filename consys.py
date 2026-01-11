@@ -46,7 +46,34 @@ class CONSYS:
             noise = np.random.uniform(self.config.noise_range[0],self.config.noise_range[1],size=self.config.num_timesteps)
             
             mse = self.loss_function(params, noise)
-            grads = grad_fn(params, noise)
+            grads = grad_fn(params, noise) # grads samme som paramts bare den deriverte av lagene basert på det laget de har fremfor seg? jax huske hva som avhengiger av hva
+            """          
+            params = [
+                {'w': W1 (3×8), 'b': b1 (8,)},   # Vektene i lag 1 
+                {'w': W2 (8×8), 'b': b2 (8,)},   # Vektene i lag 2
+                {'w': W3 (8×1), 'b': b3 (1,)}    # Vektene i lag 3
+            ]
+
+            grads = [
+                {'w': ∂MSE/∂W1 (3×8), 'b': ∂MSE/∂b1 (8,)},  # Deriverte for lag 1
+                {'w': ∂MSE/∂W2 (8×8), 'b': ∂MSE/∂b2 (8,)},  # Deriverte for lag 2
+                {'w': ∂MSE/∂W3 (8×1), 'b': ∂MSE/∂b3 (1,)}   # Deriverte for lag 3
+            ]
+            
+            W1 = [
+                [w₁₁, w₁₂, w₁₃, w₁₄, w₁₅, w₁₆, w₁₇, w₁₈],  # 8 vekter
+                [w₂₁, w₂₂, w₂₃, w₂₄, w₂₅, w₂₆, w₂₇, w₂₈],  # 8 vekter
+                [w₃₁, w₃₂, w₃₃, w₃₄, w₃₅, w₃₆, w₃₇, w₃₈]   # 8 vekter
+            ]
+
+            # ∂MSE/∂W1 er også en (3×8) matrise med 24 gradienter:
+            ∂MSE/∂W1 = [
+                [∂MSE/∂w₁₁, ∂MSE/∂w₁₂, ∂MSE/∂w₁₃, ..., ∂MSE/∂w₁₈],  # 8 gradienter
+                [∂MSE/∂w₂₁, ∂MSE/∂w₂₂, ∂MSE/∂w₂₃, ..., ∂MSE/∂w₂₈],  # 8 gradienter
+                [∂MSE/∂w₃₁, ∂MSE/∂w₃₂, ∂MSE/∂w₃₃, ..., ∂MSE/∂w₃₈]   # 8 gradienter
+            ]
+            """           
+            
             
             # Oppdater basert på type
             if self.is_neural:
