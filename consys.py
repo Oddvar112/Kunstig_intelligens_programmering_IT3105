@@ -53,13 +53,15 @@ class CONSYS:
                 # NN
                 print(f"Epoch {epoch}: MSE={mse:.6f}")
                 new_params = []
-                for layer_params, layer_grads in zip(params, grads):
+                for i in range(len(params)):
+                    layer_params = params[i]
+                    layer_grads = grads[i]
                     new_layer = {
                         'w': layer_params['w'] - self.config.learning_rate * layer_grads['w'],
                         'b': layer_params['b'] - self.config.learning_rate * layer_grads['b']
                     }
                     new_params.append(new_layer)
-                params = new_params  
+                params = new_params
             else:
                 # normal
                 print(f"Epoch {epoch}: MSE={mse:.6f}, grads={grads}")
