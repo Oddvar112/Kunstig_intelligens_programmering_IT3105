@@ -22,10 +22,8 @@ class CournotPlant(Plant):
         price = jnp.maximum(self.pmax - q_total, 0.0)
         profit = q1_new * (price - self.cm)
         
-        # Beregn error
         error = self.target_profit - profit
         
-        # Ny state
         new_state = jnp.array([q1_new, q2_new])
         
         return profit, error, new_state
