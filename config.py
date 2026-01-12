@@ -2,7 +2,7 @@ class Config:
     def __init__(self):
         self.num_epochs = 100
         self.num_timesteps = 10
-        self.learning_rate = 0.001 # 0.001 funker bra for cournot
+        self.learning_rate = 0.01   # 0.01 funker bra for cournot
         self.noise_range = (-0.01, 0.01) 
         
         self.plant_type = "cournot"  # "bathtub" eller "cournot"
@@ -21,5 +21,5 @@ class Config:
         self.pid_ki_init = 0
         self.pid_kd_init = 0
         
-        self.nn_layers = [3, 8, 8, 4, 1]  
-        self.nn_activation = 'relu'     # 'tanh', 'sigmoid', eller 'relu'
+        self.nn_layers = [3, 8, 8, 1]  
+        self.nn_activation = 'tanh'     # 'tanh', 'sigmoid', eller 'relu'
