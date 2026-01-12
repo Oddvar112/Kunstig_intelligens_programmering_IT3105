@@ -1,5 +1,9 @@
+import jax
 import jax.numpy as jnp
 from plant import Plant
+
+def soft_clip(x, low=0.0, high=1.0):
+    return low + (high - low) * jax.nn.sigmoid(4.0 * (x - (low + high) / 2)) #prøvde med hard clippinng men dennne er bedre da vvi alltidd får en gradient 
 
 class CournotPlant(Plant):
     def __init__(self, pmax=2.0, cm=0.1, target_profit=0.5, q1_init=0.5, q2_init=0.5):
@@ -15,8 +19,8 @@ class CournotPlant(Plant):
     def step(self, u, d, state):
         q1, q2 = state
         
-        q1_new = jnp.clip(q1 + u, 0.0, 1.0)
-        q2_new = jnp.clip(q2 + d, 0.0, 1.0)
+        q1_new = soft_clip(q1 + u, 0.0, 1.0)
+        q2_new = soft_clip(q2 + d, 0.0, 1.0)
         
         q_total = q1_new + q2_new
         price = jnp.maximum(self.pmax - q_total, 0.0)
