@@ -16,11 +16,11 @@ class CournotPlant(Plant):
     def reset(self):
         return jnp.array([self.q1_init, self.q2_init])
     
-    def step(self, u, d, state):
+    def step(self, u, noise, state):
         q1, q2 = state
         
         q1_new = soft_clip(q1 + u, 0.0, 1.0)
-        q2_new = soft_clip(q2 + d, 0.0, 1.0)
+        q2_new = soft_clip(q2 + noise, 0.0, 1.0)
         
         q_total = q1_new + q2_new
         price = jnp.maximum(self.pmax - q_total, 0.0)
