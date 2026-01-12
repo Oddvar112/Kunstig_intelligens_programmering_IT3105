@@ -3,6 +3,7 @@ from config import Config
 from pid_controller import PIDController
 from nn_pid_controller import NeuralPIDController
 from bathtub_plant import BathtubPlant
+from cournot_plant import CournotPlant
 from consys import CONSYS
 
 def plot_results(results):
@@ -30,6 +31,26 @@ def plot_results(results):
 # Lag konfigurasjon
 config = Config()
 
+if config.plant_type == "bathtub":
+    plant = BathtubPlant(
+        A=config.bathtub_area,
+        C=config.drain_area,
+        H0=config.initial_height
+    )
+elif config.plant_type == "cournot":
+    plant = CournotPlant(
+        pmax=config.pmax,
+        cm=config.cm,
+        target_profit=config.target_profit,
+        q1_init=config.q1_init,
+        q2_init=config.q2_init
+    )
+    
+else:
+    raise ValueError(f"Unknown plant type: {config.plant_type}. Use 'bathtub' or 'cournot'")
+
+
+
 # Velg controller type
 print("\nVelg controller type:")
 print("1. Classic PID")
@@ -54,12 +75,6 @@ else:
         ki=config.pid_ki_init, 
         kd=config.pid_kd_init
     )
-
-plant = BathtubPlant(
-    A=config.bathtub_area,
-    C=config.drain_area,
-    H0=config.initial_height
-)
 
 consys = CONSYS(controller, plant, config)
 results = consys.train()
