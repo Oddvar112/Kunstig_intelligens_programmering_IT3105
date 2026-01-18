@@ -2,10 +2,10 @@ class Config:
     def __init__(self):
         self.num_epochs = 100
         self.num_timesteps = 10
-        self.learning_rate = 0.01   # 0.01 funker bra for cournot
-        self.noise_range = (-0.01, 0.01) 
+        self.learning_rate = 0.1   # 0.01 funker bra for cournot
+        self.noise_range = (-0.01, 0.01) # virker mye høyere enn bare kravet som er 0.01
         
-        self.plant_type = "cournot"  # "bathtub" eller "cournot"
+        self.plant_type = "bathtub"  # "bathtub" eller "cournot"
         
         self.bathtub_area = 10
         self.drain_area = 0.3
@@ -23,3 +23,6 @@ class Config:
         
         self.nn_layers = [3, 8, 8, 1]  
         self.nn_activation = 'tanh'     # 'tanh', 'sigmoid', eller 'relu'
+        
+        self.weight_init_range = (-0.5, 0.5)
+        self.bias_init_range = (0.0, 0.0) # alle bias = 0

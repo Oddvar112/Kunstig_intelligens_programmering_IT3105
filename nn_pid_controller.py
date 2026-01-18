@@ -4,7 +4,7 @@ import jax.numpy as jnp
 #https://www.youtube.com/watch?v=Oieh4YFZZz0
 
 class NeuralPIDController:
-    def __init__(self, layers=[3, 8, 8, 1], activation='tanh'):
+    def __init__(self, layers=[3, 8, 8, 1], activation='tanh', weight_init_range=(-0.5, 0.5), bias_init_range=(0.0, 0.0)):
         self.layers = layers
         if activation == 'tanh':
             self.activation = jnp.tanh
@@ -24,9 +24,12 @@ class NeuralPIDController:
             dimInput = layers[i]
             dimOutput = layers[i + 1]
             
-            key, wkey = jax.random.split(key)
-            W = jax.random.uniform(wkey, (dimInput, dimOutput), minval=-0.5, maxval=0.5)
-            b = jnp.zeros(dimOutput)
+            key, wkey, bkey = jax.random.split(key, 3)
+            W = jax.random.uniform(wkey, (dimInput, dimOutput), minval=weight_init_range[0], maxval=weight_init_range[1])
+            if bias_init_range[0] == bias_init_range[1]:
+                b = jnp.full(dimOutput, bias_init_range[0])
+            else:
+                b = jax.random.uniform(bkey, (dimOutput,), minval=bias_init_range[0], maxval=bias_init_range[1])
             
             self.weight_matrices.append(W)
             self.bias_vectors.append(b)
