@@ -12,7 +12,7 @@ def plot_results(results):
     ax1.plot(results['mse_history'], linewidth=2, color='#2E86AB')
     ax1.set_xlabel('Epoch', fontsize=12)
     ax1.set_ylabel('Mean Squared Error', fontsize=12)
-    ax1.set_title('Læringsprogresjon', fontsize=14, fontweight='bold')
+    ax1.set_title('Læring', fontsize=14, fontweight='bold')
     ax1.grid(True, alpha=0.3)
     
     if 'kp_history' in results:
@@ -28,7 +28,7 @@ def plot_results(results):
     plt.tight_layout()
     plt.show()
 
-# Lag konfigurasjon
+# konfigurasjon data objekt 
 config = Config()
 
 if config.plant_type == "bathtub":
@@ -81,5 +81,4 @@ else:
 consys = CONSYS(controller, plant, config)
 results = consys.train()
 
-# Plott
 plot_results(results)

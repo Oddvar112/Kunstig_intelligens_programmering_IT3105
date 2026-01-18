@@ -18,10 +18,12 @@ class CournotPlant(Plant):
     
     def step(self, u, noise, state):
         q1, q2 = state
+
+        # ∂MSE/∂params = ∂MSE/∂error × ∂error/∂profit × ∂profit/∂q1_new × ∂q1_new/∂u × ∂u/∂params
         
         q1_new = soft_clip(q1 + u, 0.0, 1.0)
         q2_new = soft_clip(q2 + noise, 0.0, 1.0)
-        
+
         q_total = q1_new + q2_new
         price = jnp.maximum(self.pmax - q_total, 0.0)
         profit = q1_new * (price - self.cm)
