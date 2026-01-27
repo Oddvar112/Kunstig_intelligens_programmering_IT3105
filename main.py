@@ -1,5 +1,6 @@
 import matplotlib.pyplot as plt
 from config import Config
+from inflation_plant import inflation_plant
 from pid_controller import PIDController
 from nn_pid_controller import NeuralPIDController
 from bathtub_plant import BathtubPlant
@@ -44,6 +45,14 @@ elif config.plant_type == "cournot":
         target_profit=config.target_profit,
         q1_init=config.q1_init,
         q2_init=config.q2_init
+    )
+elif config.plant_type == "inflation":
+    print("inflation chosen")
+    plant = inflation_plant(
+        r0=config.r0,
+        pi0=config.pi0,
+        target_pi=config.target_pi,
+        alpha=config.alpha
     )
     
 else:

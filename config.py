@@ -2,10 +2,10 @@ class Config:
     def __init__(self):
         self.num_epochs = 100
         self.num_timesteps = 10
-        self.learning_rate = 0.1   # 0.01 funker bra for cournot
+        self.learning_rate = 0.001   # 0.01 funker bra for cournot
         self.noise_range = (-0.01, 0.01) # virker mye høyere enn bare kravet som er 0.01
         
-        self.plant_type = "bathtub"  # "bathtub" eller "cournot"
+        self.plant_type = "inflation"  # "bathtub" eller "cournot"
         
         self.bathtub_area = 10
         self.drain_area = 0.3
@@ -16,7 +16,12 @@ class Config:
         self.target_profit = 2     # Target profit per timestep
         self.q1_init = 0.5           # Initial production (oss)
         self.q2_init = 0.5           # Initial production (rival)
-               
+        
+        self.r0=0.04 # Current interest rate
+        self.pi0=0.031 # inflation 2025
+        self.target_pi=0.02 # Norges bank target
+        self.alpha=0.5
+
         self.pid_kp_init = 0
         self.pid_ki_init = 0
         self.pid_kd_init = 0
