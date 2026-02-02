@@ -5,7 +5,7 @@ class Config:
         self.learning_rate = 0.001   # 0.01 funker bra for cournot
         self.noise_range = (-0.01, 0.01) # virker mye høyere enn bare kravet som er 0.01
         
-        self.plant_type = "inflation"  # "bathtub" eller "cournot"
+        self.plant_type = "inflation"  # "bathtub" eller "cournot eller inflation"
         
         self.bathtub_area = 10
         self.drain_area = 0.3
