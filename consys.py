@@ -2,7 +2,6 @@ import jax
 import jax.numpy as jnp
 from jax import grad
 import numpy as np
-from nn_pid_controller import NeuralPIDController
 
 class CONSYS:
     
