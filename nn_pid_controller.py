@@ -81,6 +81,6 @@ class NeuralPIDController(Controller):
         
         output = self.network_forward(x, self.weight_matrices, self.bias_vectors)
         
-        U = output[0] if output.shape == (1,) else output
+        U = output[0]
         
         return U
