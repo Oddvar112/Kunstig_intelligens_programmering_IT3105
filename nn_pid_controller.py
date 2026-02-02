@@ -3,7 +3,7 @@ import jax.numpy as jnp
 
 from controller import Controller
 
-#https://www.youtube.com/watch?v=Oieh4YFZZz0
+#https://www.youtube.com/watch?v=Oieh4YFZZz0 used for inspiration and help we could not use the same setup :(
 
 class NeuralPIDController(Controller):
     def __init__(self, layers=[3, 8, 8, 1], activations=['tanh', 'tanh'], weight_init_range=(-0.5, 0.5), bias_init_range=(0.0, 0.0)):
