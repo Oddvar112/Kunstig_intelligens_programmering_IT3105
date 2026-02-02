@@ -1,19 +1,22 @@
 import jax
 import jax.numpy as jnp
 
+from controller import Controller
+
 #https://www.youtube.com/watch?v=Oieh4YFZZz0
 
-class NeuralPIDController:
-    def __init__(self, layers=[3, 8, 8, 1], activation='tanh', weight_init_range=(-0.5, 0.5), bias_init_range=(0.0, 0.0)):
-        self.layers = layers
-        if activation == 'tanh':
-            self.activation = jnp.tanh
-        elif activation == 'sigmoid':
-            self.activation = jax.nn.sigmoid
-        elif activation == 'relu':
-            self.activation = jax.nn.relu
-        else:
-            self.activation = lambda x: x
+class NeuralPIDController(Controller):
+    def __init__(self, layers=[3, 8, 8, 1], activations=['tanh', 'tanh'], weight_init_range=(-0.5, 0.5), bias_init_range=(0.0, 0.0)):
+        self.activations = []
+        for act in activations:
+            if act == 'tanh':
+                self.activations.append(jnp.tanh)
+            elif act == 'sigmoid':
+                self.activations.append(jax.nn.sigmoid)
+            elif act == 'relu':
+                self.activations.append(jax.nn.relu)
+            else:
+                self.activations.append(lambda x: x) 
         
         self.weight_matrices = []
         self.bias_vectors = []
@@ -38,16 +41,28 @@ class NeuralPIDController:
         a = x
         for i, (W, b) in enumerate(zip(weights, biases)):
             a = a @ W + b
-            if i < len(weights) - 1:
-                a = self.activation(a)
-        
+            if i < len(weights) - 1:  
+                a = self.activations[i](a) # riktig activation for laget 
         return a
+    
+    def get_param_history_entry(self, params):
+        return None
     
     def get_params(self):
         params = []
         for W, b in zip(self.weight_matrices, self.bias_vectors):
             params.append({'w': W, 'b': b})
         return params
+    
+    def update_params(self, params, grads, learning_rate):
+        new_params = []
+        for layer_params, layer_grads in zip(params, grads):
+            new_layer = {
+                'w': layer_params['w'] - learning_rate * layer_grads['w'],
+                'b': layer_params['b'] - learning_rate * layer_grads['b']
+            }
+            new_params.append(new_layer)
+        return new_params
     
     def set_params(self, params):
         self.weight_matrices = [p['w'] for p in params]
