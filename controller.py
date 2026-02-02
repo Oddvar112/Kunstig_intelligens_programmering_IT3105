@@ -17,3 +17,7 @@ class Controller(ABC):
     @abstractmethod
     def update_params(self, params, grads, learning_rate):
         pass
+    
+    @abstractmethod
+    def get_param_history_entry(self, params):
+        pass
