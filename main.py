@@ -75,7 +75,7 @@ if choice == '1':
 elif choice == '2':
     controller = NeuralPIDController(
         layers=config.nn_layers, 
-        activation=config.nn_activation,
+        activations=config.nn_activations, 
         weight_init_range=config.weight_init_range,
         bias_init_range=config.bias_init_range
     )
