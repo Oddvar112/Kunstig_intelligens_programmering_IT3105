@@ -27,7 +27,7 @@ class Config:
         self.pid_kd_init = 0
         
         self.nn_layers = [3, 8, 8, 1]  
-        self.nn_activation = 'tanh'     # 'tanh', 'sigmoid', eller 'relu'
-        
+        self.nn_activations = ['tanh', 'tanh']  # En for hvert hidden layer altså de melloom start og slutt # 'tanh', 'sigmoid', eller 'relu'
+
         self.weight_init_range = (-0.5, 0.5)
         self.bias_init_range = (0.0, 0.0) # alle bias = 0
