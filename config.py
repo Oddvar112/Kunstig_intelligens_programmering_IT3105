@@ -2,7 +2,7 @@ class Config:
     def __init__(self):
         self.num_epochs = 100
         self.num_timesteps = 10
-        self.learning_rate = 0.001   # 0.01 funker bra for cournot
+        self.learning_rate = 0.0001   # 0.01 funker bra for cournot 0.0001 for inflationn NN er nice
         self.noise_range = (-0.01, 0.01) # virker mye høyere enn bare kravet som er 0.01
         
         self.plant_type = "inflation"  # "bathtub" eller "cournot eller inflation"
