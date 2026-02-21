@@ -1,6 +1,6 @@
 import jax
 import jax.numpy as jnp
-from plant import Plant
+from Prosjekt_1.plant import Plant
 
 '''
 d = demand shock

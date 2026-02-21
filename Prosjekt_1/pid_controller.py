@@ -1,6 +1,6 @@
 import jax.numpy as jnp
 
-from controller import Controller
+from Prosjekt_1.controller import Controller
 
 class PIDController(Controller):
     

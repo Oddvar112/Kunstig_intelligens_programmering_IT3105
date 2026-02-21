@@ -1,11 +1,11 @@
 import matplotlib.pyplot as plt
-from config import Config
-from inflation_plant import inflation_plant
-from pid_controller import PIDController
-from nn_pid_controller import NeuralPIDController
-from bathtub_plant import BathtubPlant
-from cournot_plant import CournotPlant
-from consys import CONSYS
+from Prosjekt_1.config import Config
+from Prosjekt_1.inflation_plant import inflation_plant
+from Prosjekt_1.pid_controller import PIDController
+from Prosjekt_1.nn_pid_controller import NeuralPIDController
+from Prosjekt_1.bathtub_plant import BathtubPlant
+from Prosjekt_1.cournot_plant import CournotPlant
+from Prosjekt_1.consys import CONSYS
 
 def plot_results(results):
     fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(14, 5))

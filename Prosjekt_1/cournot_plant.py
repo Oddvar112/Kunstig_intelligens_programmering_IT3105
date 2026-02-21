@@ -1,6 +1,6 @@
 import jax
 import jax.numpy as jnp
-from plant import Plant
+from Prosjekt_1.plant import Plant
 
 def soft_clip(x, low=0.0, high=1.0):
     return low + (high - low) * jax.nn.sigmoid(4.0 * (x - (low + high) / 2)) #prøvde med hard clippinng men dennne er bedre da vvi alltidd får en gradient 

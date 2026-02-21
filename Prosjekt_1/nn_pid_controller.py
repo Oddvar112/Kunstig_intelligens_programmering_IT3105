@@ -1,7 +1,7 @@
 import jax
 import jax.numpy as jnp
 
-from controller import Controller
+from Prosjekt_1.controller import Controller
 
 #https://www.youtube.com/watch?v=Oieh4YFZZz0 used for inspiration and help we could not use the same setup :(
 

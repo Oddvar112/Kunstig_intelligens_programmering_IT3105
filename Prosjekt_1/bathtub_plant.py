@@ -1,5 +1,5 @@
 import jax.numpy as jnp
-from plant import Plant
+from Prosjekt_1.plant import Plant
 
 class BathtubPlant(Plant):
     def __init__(self, A=1.0, C=0.01, H0=1.0):
