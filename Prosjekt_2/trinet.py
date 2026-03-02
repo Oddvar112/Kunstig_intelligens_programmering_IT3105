@@ -7,6 +7,7 @@ Psi består av:
 - NNp (Prediction): abstract state -> (policy, value)
 
 Håndterer initialisering, inference og BPTT-trening med Adam optimizer.
+JIT-kompilert for ytelse.
 """
 
 import jax
@@ -29,12 +30,34 @@ class TrinetManager:
         self.adam_eps = 1e-8
         self.adam_t = 0
 
-    def init_params(self, key):
-        """Initialiser parametre for alle tre nettverk.
+        # ============ JIT-kompilerte funksjoner ============
+        # Disse kjører mye raskere enn vanlig Python fordi JAX
+        # kompilerer dem til optimalisert maskinkode ved første kall.
 
-        Returns:
-            psi_params: {'nnr': [...], 'nnd': [...], 'nnp': [...]}
-        """
+        # Inference-funksjoner (brukes tusenvis av ganger i MCTS)
+        nnr_acts = config.nnr_activations
+        nnd_acts = config.nnd_activations
+        nnp_acts = config.nnp_activations
+        abs_size = config.abstract_state_size
+        n_actions = config.num_actions
+
+        self._jitted_nnr = jax.jit(
+            lambda params, x: nnr_forward(params, x, nnr_acts)
+        )
+        self._jitted_nnd = jax.jit(
+            lambda params, s, a: nnd_forward(params, s, a, nnd_acts, abs_size)
+        )
+        self._jitted_nnp = jax.jit(
+            lambda params, s: nnp_forward(params, s, nnp_acts, n_actions)
+        )
+
+        # Trenings-funksjon (loss + gradienter i ett kall)
+        self._jitted_loss_and_grad = jax.jit(
+            jax.value_and_grad(self._bptt_loss)
+        )
+
+    def init_params(self, key):
+        """Initialiser parametre for alle tre nettverk."""
         key1, key2, key3 = jax.random.split(key, 3)
 
         return {
@@ -44,39 +67,20 @@ class TrinetManager:
         }
 
     def representation(self, psi_params, game_states_flat):
-        """NNr: Konverter game states til abstract state."""
-        return nnr_forward(
-            psi_params['nnr'],
-            game_states_flat,
-            self.config.nnr_activations
-        )
+        """NNr: Konverter game states til abstract state. (JIT)"""
+        return self._jitted_nnr(psi_params['nnr'], game_states_flat)
 
     def dynamics(self, psi_params, abstract_state, action):
-        """NNd: Prediker neste abstract state og reward."""
+        """NNd: Prediker neste abstract state og reward. (JIT)"""
         action_onehot = jax.nn.one_hot(action, self.config.num_actions)
-        return nnd_forward(
-            psi_params['nnd'],
-            abstract_state,
-            action_onehot,
-            self.config.nnd_activations,
-            self.config.abstract_state_size
-        )
+        return self._jitted_nnd(psi_params['nnd'], abstract_state, action_onehot)
 
     def prediction(self, psi_params, abstract_state):
-        """NNp: Prediker policy og value fra abstract state."""
-        return nnp_forward(
-            psi_params['nnp'],
-            abstract_state,
-            self.config.nnp_activations,
-            self.config.num_actions
-        )
+        """NNp: Prediker policy og value fra abstract state. (JIT)"""
+        return self._jitted_nnp(psi_params['nnp'], abstract_state)
 
     def train_step(self, psi_params, episode_buffer):
-        """Utfør ett treningssteg med BPTT og Adam optimizer.
-
-        Returns:
-            (updated_psi_params, avg_loss)
-        """
+        """Utfør ett treningssteg med BPTT og Adam optimizer. (JIT)"""
         minibatch = episode_buffer.sample_minibatch()
         if minibatch is None:
             return psi_params, 0.0
@@ -96,7 +100,8 @@ class TrinetManager:
             target_values = jnp.array(target_values)
             target_rewards = jnp.array(target_rewards)
 
-            loss, grads = jax.value_and_grad(self._bptt_loss)(
+            # Bruker JIT-kompilert loss+grad
+            loss, grads = self._jitted_loss_and_grad(
                 psi_params,
                 states_flat,
                 actions_onehot,
@@ -170,7 +175,7 @@ class TrinetManager:
 
     def _bptt_loss(self, psi_params, states_flat, actions_onehot, target_policies, target_values, target_rewards):
         """Beregn BPTT loss for alle tre nettverk.
-        MÅ være ren JAX-funksjon for jax.grad.
+        MÅ være ren JAX-funksjon for jax.grad og jax.jit.
         """
         # Representasjon: game states -> abstract state
         sigma = nnr_forward(
@@ -248,14 +253,12 @@ class TrinetManager:
         for sample in minibatch:
             states_flat, actions, target_policies, target_values, target_rewards = sample
 
-            # Forward pass
+            # Forward pass (bruker JIT-versjoner)
             states_flat = jnp.array(states_flat)
-            sigma = nnr_forward(psi_params['nnr'], states_flat, self.config.nnr_activations)
+            sigma = self._jitted_nnr(psi_params['nnr'], states_flat)
             diagnostics['abstract_states'].append(np.array(sigma))
 
-            pred_policy, pred_value = nnp_forward(
-                psi_params['nnp'], sigma, self.config.nnp_activations, self.config.num_actions
-            )
+            pred_policy, pred_value = self._jitted_nnp(psi_params['nnp'], sigma)
 
             # Samle predictions
             diagnostics['pred_values'].append(float(pred_value))
@@ -272,28 +275,28 @@ class TrinetManager:
             diagnostics['value_loss'] += value_loss
             diagnostics['entropy'] += entropy
 
-            # Rollout rewards
+            # Rollout rewards (bruker JIT-versjoner)
             for j, a in enumerate(actions):
                 action_onehot = jax.nn.one_hot(a, self.config.num_actions)
-                sigma, pred_reward = nnd_forward(
-                    psi_params['nnd'], sigma, action_onehot,
-                    self.config.nnd_activations, self.config.abstract_state_size
-                )
+                sigma, pred_reward = self._jitted_nnd(psi_params['nnd'], sigma, action_onehot)
                 diagnostics['pred_rewards'].append(float(pred_reward))
                 diagnostics['target_rewards'].append(float(target_rewards[j]))
                 diagnostics['reward_loss'] += (float(pred_reward) - float(target_rewards[j])) ** 2
+
         # Normaliser
         n = len(minibatch)
         diagnostics['policy_loss'] /= n
         diagnostics['value_loss'] /= n
         diagnostics['reward_loss'] /= n
         diagnostics['entropy'] /= n
+
         # Abstract state statistikk
         abstract_states = np.array(diagnostics['abstract_states'])
         diagnostics['abstract_state_mean'] = np.mean(abstract_states)
         diagnostics['abstract_state_std'] = np.std(abstract_states)
         diagnostics['abstract_state_min'] = np.min(abstract_states)
         diagnostics['abstract_state_max'] = np.max(abstract_states)
+
         # Sjekk for representasjonskollaps
         if len(abstract_states) > 1:
             pairwise_distances = []
