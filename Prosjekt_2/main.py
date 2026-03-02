@@ -1,3 +1,10 @@
+"""Hovedprogram for MuZero GridCollect.
+
+Denne modulen inneholder hovedinngang for MuZero-implementasjonen.
+Setter opp alle komponenter, kjører trening, og genererer visualiseringer
+av treningsresultatene.
+"""
+
 import sys
 import numpy as np
 import matplotlib
@@ -13,7 +20,17 @@ from rl_manager import RLManager
 
 
 def plot_results(reward_history, loss_history, config, training_stats=None):
-    """Visualiser treningsresultater med flere plots."""
+    """Visualiser treningsresultater med flere plots.
+
+    Genererer 13 forskjellige plots som viser:
+    - Reward over tid (individuelle og glidende gjennomsnitt)
+    - Kumulativ reward
+    - Reward distribusjon
+    - Trenings-loss
+    - Policy entropy og konfidens
+    - Dashboard med oversikt
+
+    """
     
     # === PLOT 1: Kombinert oversikt (original) ===
     fig, axes = plt.subplots(2, 1, figsize=(12, 8))
@@ -352,7 +369,9 @@ def plot_results(reward_history, loss_history, config, training_stats=None):
 
 
 def demo_gameplay(rl_manager, psi_params, num_episodes=3):
-    """Demonstrer spilling med trent policy."""
+    """
+    Demonstrer spilling med trent policy.
+    """
     print("\n" + "="*50)
     print("DEMO: Spiller med trent policy (uten MCTS)")
     print("="*50)
@@ -367,7 +386,9 @@ def demo_gameplay(rl_manager, psi_params, num_episodes=3):
 
 
 def compare_random_vs_trained(rl_manager, psi_params, num_episodes=20):
-    """Sammenlign trent policy med tilfeldig spilling."""
+    """
+    Sammenlign trent policy med tilfeldig spilling.
+    """
     print("\n" + "="*50)
     print("Sammenligning: Tilfeldig vs Trent policy")
     print("="*50)
@@ -400,7 +421,10 @@ def compare_random_vs_trained(rl_manager, psi_params, num_episodes=20):
 
 
 def main():
-    """Hovedprogram for MuZero GridCollect."""
+    """
+    Hovedprogram for MuZero GridCollect.
+    Setter opp alle komponenter, kjører trening, og evaluerer resultater.
+    """
     print("="*50)
     print("  MuZero Knockoff - GridCollect")
     print("  IT-3105 AI Programming")
@@ -446,5 +470,4 @@ def main():
     demo_gameplay(rl_manager, psi_params, num_episodes=1)
 
 
-if __name__ == "__main__":
-    main()
+main()
