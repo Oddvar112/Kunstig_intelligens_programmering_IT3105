@@ -128,6 +128,7 @@ class RLManager:
 
             # Beregn faktiske diskonterte avkastninger som verdimål
             # Erstatter MCTS Q-verdier som er meningsløse tidlig i trening
+            # istedenfor MCTS Q-verdier, da disse er ustabile tidlig i trening, fikk ikke at den lærte
             gamma = self.config.discount_factor
             G = 0.0
             for t in reversed(range(len(episode_data))):
