@@ -1,29 +1,44 @@
+"""GridCollect spillmiljø for MuZero.
+
+Denne modulen implementerer et enkelt 2D grid-basert spill hvor en agent
+må navigere til mål-posisjoner. Brukes som testmiljø for MuZero-implementasjonen.
+
+Spillet:
+- Agent (A) og mål (X) plasseres på et NxN rutenett
+- Agent kan bevege seg i 4 retninger (opp, høyre, ned, venstre)
+- Positive reward ved å nå målet, liten negativ reward ellers
+- Målet respawner på ny posisjon når det samles
+"""
+
 import numpy as np
 
 
+
+
 class GridCollectState:
-    """Tilstand i GridCollect-spillet."""
 
     def __init__(self, agent_pos, target_pos, grid_size):
-        self.agent_pos = agent_pos    # (row, col)
-        self.target_pos = target_pos  # (row, col)
+        self.agent_pos = agent_pos # (row, col)
+        self.target_pos = target_pos # (row, col)
         self.grid_size = grid_size
 
-
 class GridCollect:
-    """GridCollect spillsimulator."""
 
+    # Action-konstanter
     UP = 0
     RIGHT = 1
     DOWN = 2
     LEFT = 3
+
 
     def __init__(self, grid_size=5):
         self.grid_size = grid_size
         self.num_actions = 4
 
     def reset(self):
-        """Start nytt spill med tilfeldige posisjoner."""
+        """
+        Start nytt spill med tilfeldige posisjoner.
+        """
         agent_pos = (
             np.random.randint(self.grid_size),
             np.random.randint(self.grid_size)
@@ -37,7 +52,9 @@ class GridCollect:
         return GridCollectState(agent_pos, target_pos, self.grid_size)
 
     def step(self, state, action):
-        """Utfør handling og returner (ny_tilstand, reward)."""
+        """
+        Utfør handling og oppdater tilstand.
+        """
         row, col = state.agent_pos
 
         if action == self.UP:
@@ -65,21 +82,20 @@ class GridCollect:
             return GridCollectState(new_agent_pos, state.target_pos, self.grid_size), -0.01
 
     def get_legal_actions(self, state):
-        """Alle 4 retninger er alltid lovlige."""
+        """
+        Returner lovlige handlinger.
+        """
         return [0, 1, 2, 3]
 
     def is_terminal(self, state):
-        """Spillet er aldri terminal - kjører til max steg."""
+        """
+        Sjekk om spillet er ferdig.
+        """
         return False
 
     def state_to_array(self, state):
-        """Konverter til kompakt array med relativ posisjon for bedre læring.
-        
-        Inneholder:
-        - agent_row, agent_col (normalisert)
-        - delta_row, delta_col (retning til mål, normalisert)
-        - distance (Manhattan-avstand, normalisert)
-        - wall indicators (om agenten er ved kanten)
+        """
+        Konverter til kompakt feature-array for nevrale nettverk.
         """
         norm = max(1, self.grid_size - 1)
         
@@ -110,7 +126,9 @@ class GridCollect:
         ], dtype=np.float32)
 
     def render(self, state):
-        """Vis spilltilstanden i konsollen."""
+        """
+        Vis spilltilstanden i konsollen.
+        """
         border = '+' + '-' * self.grid_size + '+'
         print(border)
         for r in range(self.grid_size):
