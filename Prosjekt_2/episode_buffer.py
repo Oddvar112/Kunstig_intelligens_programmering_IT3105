@@ -1,18 +1,20 @@
+"""Episode Buffer for MuZero BPTT-trening.
+
+Denne modulen implementerer en replay buffer for å lagre episodes
+som brukes til å trene nettverkene med Backpropagation Through Time (BPTT).
+Bufferet sampler minibatcher med lookback states, roll-ahead actions,
+og targets for policy, value og reward.
+"""
+
 import numpy as np
 
 
 class EpisodeBuffer:
-    """Episode Buffer for lagring av episodedata til BPTT-trening.
-
-    Lagrer for hver episode:
-    - states: sekvens av game states (som flat arrays)
-    - actions: sekvens av handlinger
-    - rewards: sekvens av belønninger
-    - policies: sekvens av MCTS-policies
-    - values: sekvens av estimerte state-verdier
-    """
 
     def __init__(self, config):
+        """
+        Initialiser episode buffer.
+        """
         self.config = config
         self.episodes = []
         self.max_size = 200  # behold flere episoder for mer stabil trening
@@ -26,10 +28,15 @@ class EpisodeBuffer:
         if len(self.episodes) > self.max_size:
             self.episodes.pop(0)
 
+
     def sample_minibatch(self):
+        """
+        Sample en minibatch for BPTT-trening.
+        """
         if len(self.episodes) == 0:
             return None
 
+        # Hent hyperparametre
         q = self.config.lookback_q
         w = self.config.rollout_w
         state_size = self.config.game_state_size
