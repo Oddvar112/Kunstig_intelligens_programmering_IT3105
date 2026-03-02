@@ -60,7 +60,6 @@ env/
 .pytype/
 
 # Logs
-*.log
 
 # matplotlib cache
 **/.cache/matplotlib

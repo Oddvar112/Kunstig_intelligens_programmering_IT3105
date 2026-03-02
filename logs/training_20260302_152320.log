@@ -1,0 +1,27 @@
+============================================================
+MuZero Training - 2026-03-02 15:23:22
+============================================================
+Episodes: 5000
+Steps/episode: 50
+MCTS searches: 100
+Max search depth: 5
+Discount factor: 0.97
+Learning rate: 0.001
+Temperature: 1.5 (decay: 0.999)
+Buffer size: 200
+Minibatch size: 32
+Abstract state size: 32
+c_puct: 1.0
+Dirichlet alpha: 1.0, epsilon: 0.5
+============================================================
+
+
+Episode 0:
+  Total reward: -0.50
+  Collections: 0
+  Value range: [-0.261, -0.010], avg=-0.165
+  Reward sum: -0.50
+  Policy entropy: 1.1587 (higher=more exploration)
+  Avg max policy prob: 0.468
+  Actions: UP=13, RIGHT=12, DOWN=6, LEFT=19
+  Temperature: 1.5000
