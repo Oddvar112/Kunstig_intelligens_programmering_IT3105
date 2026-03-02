@@ -1,0 +1,30 @@
+
+  [Ep 0, Step 0] Agent: (1, 0), Target: (2, 0)
+    MCTS policy: [0.44  0.453 0.054 0.054]
+    MCTS value: 0.0765
+    Temperature: 1.5000
+    MCTS Tree:
+      UP: visits=47, Q=0.0764, prior=0.346
+      RIGHT: visits=49, Q=0.0729, prior=0.349
+      DOWN: visits=2, Q=0.0116, prior=0.166
+      LEFT: visits=2, Q=0.0263, prior=0.139
+
+  [Ep 0, Step 1] Agent: (0, 0), Target: (2, 0)
+    MCTS policy: [0.204 0.277 0.102 0.418]
+    MCTS value: 0.0447
+    Temperature: 1.5000
+    MCTS Tree:
+      UP: visits=17, Q=0.0490, prior=0.173
+      RIGHT: visits=27, Q=0.0460, prior=0.354
+      DOWN: visits=6, Q=0.0028, prior=0.349
+      LEFT: visits=50, Q=0.0690, prior=0.124
+
+  [Ep 0, Step 2] Agent: (1, 0), Target: (2, 0)
+    MCTS policy: [0.428 0.107 0.067 0.398]
+    MCTS value: 0.0363
+    Temperature: 1.5000
+    MCTS Tree:
+      UP: visits=48, Q=0.0744, prior=0.234
+      RIGHT: visits=6, Q=0.0474, prior=0.261
+      DOWN: visits=3, Q=0.0472, prior=0.128
+      LEFT: visits=43, Q=0.0735, prior=0.377
