@@ -3,10 +3,6 @@ import jax.numpy as jnp
 
 
 def init_network_params(layer_sizes, key, weight_range=(-0.3, 0.3)):
-    """Initialiser nettverksparametre med Xavier-lignende initialisering.
-
-    Returnerer: [{'w': W, 'b': b}, ...] - en dict per lag
-    """
     params = []
     for i in range(len(layer_sizes) - 1):
         dim_in = layer_sizes[i]
@@ -24,18 +20,6 @@ def init_network_params(layer_sizes, key, weight_range=(-0.3, 0.3)):
 
 
 def forward(params, x, activations):
-    """Generisk forward pass gjennom et nettverk.
-
-    Ren funksjon - JAX-kompatibel for automatisk differensiering.
-
-    Args:
-        params: [{'w': W, 'b': b}, ...]
-        x: input array
-        activations: liste med aktiveringsfunksjoner (en per hidden lag)
-
-    Returns:
-        output fra siste lag (uten aktivering på siste lag)
-    """
     a = x
     for i, layer in enumerate(params):
         a = a @ layer['w'] + layer['b']
@@ -52,34 +36,11 @@ def forward(params, x, activations):
 
 
 def nnr_forward(params, game_states_flat, activations):
-    """Representation Network: game states -> abstract state.
-
-    Args:
-        params: nettverksparametre
-        game_states_flat: flat array av (q+1) tilstander konkatenert
-        activations: aktiveringsfunksjoner
-
-    Returns:
-        abstract_state: vektor som representerer den abstrakte tilstanden
-    """
     output = forward(params, game_states_flat, activations)
-    # Normaliser til [-1, 1] for konsistent abstract state representasjon
     return jnp.tanh(output)
 
 
 def nnd_forward(params, abstract_state, action_onehot, activations, abstract_state_size):
-    """Dynamics Network: (abstract state, action) -> (next abstract state, reward).
-
-    Args:
-        params: nettverksparametre
-        abstract_state: nåværende abstrakt tilstand
-        action_onehot: one-hot encoded handling
-        activations: aktiveringsfunksjoner
-        abstract_state_size: størrelse på abstract state (for splitting av output)
-
-    Returns:
-        (next_abstract_state, predicted_reward)
-    """
     x = jnp.concatenate([abstract_state, action_onehot])
     output = forward(params, x, activations)
 
@@ -95,23 +56,10 @@ def nnd_forward(params, abstract_state, action_onehot, activations, abstract_sta
 
 
 def nnp_forward(params, abstract_state, activations, num_actions):
-    """Prediction Network: abstract state -> (policy, value).
-
-    Args:
-        params: nettverksparametre
-        abstract_state: abstrakt tilstand
-        activations: aktiveringsfunksjoner
-        num_actions: antall mulige handlinger
-
-    Returns:
-        (policy, value) - policy er softmax-distribusjon, value er skalar
-    """
     output = forward(params, abstract_state, activations)
-
     # Split: num_actions elementer for policy logits, 1 for value
     policy_logits = output[:num_actions]
     value = output[num_actions]
-
     # Softmax for policy-distribusjon
     policy = jax.nn.softmax(policy_logits)
 

@@ -3,7 +3,6 @@ import jax.numpy as jnp
 import numpy as np
 from neural_nets import init_network_params, nnr_forward, nnd_forward, nnp_forward
 
-
 class TrinetManager:
     """Neural Network Manager for MuZeros tre nettverk (Psi).
 
@@ -282,27 +281,10 @@ class TrinetManager:
 
     def _bptt_loss(self, psi_params, states_flat, actions_onehot,
                    target_policies, target_values, target_rewards):
-        """BPTT loss-funksjon for trening av alle tre nettverk.
 
-        MÅ være ren JAX-funksjon for jax.grad.
+        # MÅ være ren JAX-funksjon for jax.grad.
 
-        Prosessen (som vist i Figure 2 i oppgaven):
-        1. NNr konverterer game states til abstract state sigma_0
-        2. NNp predikerer policy og value for sigma_0
-        3. For j=0..w-1: NNd unroller fremover med actions
-        4. Loss = sum av policy CE + value MSE + reward MSE
-
-        Args:
-            psi_params: {'nnr': [...], 'nnd': [...], 'nnp': [...]}
-            states_flat: flat array av (q+1) lookback states
-            actions_onehot: one-hot encoded handlinger [w stk]
-            target_policies: target policy-distribusjon [w+1 stk]
-            target_values: target state-verdier [w+1 stk]
-            target_rewards: target rewards [w stk]
-
-        Returns:
-            scalar loss
-        """
+ 
         # Steg 1: Representasjon - game states -> abstract state
         sigma = nnr_forward(
             psi_params['nnr'],
@@ -324,7 +306,7 @@ class TrinetManager:
         entropy = -jnp.sum(pred_policy * jnp.log(pred_policy + 1e-8))
         loss -= 0.05 * entropy
         # Value loss (MSE) - økt vekt for bedre value-læring
-        loss += 0.5 * jnp.square(pred_value - target_values[0])
+        loss += 2.0 * jnp.square(pred_value - target_values[0])
 
         # Steg 3-4: Roll-ahead med dynamics network
         w = actions_onehot.shape[0]  # antall roll-ahead steg
@@ -350,7 +332,7 @@ class TrinetManager:
             loss += -jnp.sum(target_policies[j + 1] * jnp.log(pred_policy + 1e-8))
             entropy = -jnp.sum(pred_policy * jnp.log(pred_policy + 1e-8))
             loss -= 0.05 * entropy
-            loss += 0.5 * jnp.square(pred_value - target_values[j + 1])
+            loss += 2.0 * jnp.square(pred_value - target_values[j + 1])
             loss += jnp.square(pred_reward - target_rewards[j])
 
         # Normaliser med antall steg

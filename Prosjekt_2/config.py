@@ -4,7 +4,7 @@ class Config:
         self.grid_size = 4
 
         # MuZero episode loop
-        self.num_episodes = 1000       # Ne
+        self.num_episodes = 5000      # Ne
         self.steps_per_episode = 50   # Nes
         self.training_interval = 1    # It - tren Psi hver It episode
 
@@ -30,7 +30,7 @@ class Config:
 
         # Temperatur for MCTS policy
         self.temperature = 1.5        # tau - høyere = mer utforsking
-        self.temperature_decay = 0.998 # gradvis mer greedy (saktere decay for bedre exploration)
+        self.temperature_decay = 0.999 # gradvis mer greedy (saktere decay for bedre exploration)
 
         # Visualisering
         self.eval_interval = 10       # evaluer policy hver N episode
@@ -47,7 +47,7 @@ class Config:
 
         nnr_input = (self.lookback_q + 1) * self.game_state_size
         self.nnr_layers = [nnr_input, 128, 64, self.abstract_state_size]
-        self.nnr_activations = ['relu', 'relu']  # ReLU er ofte bedre for dypere nettverk
+        self.nnr_activations = ['relu', 'relu']  # ReLU 
 
         nnd_input = self.abstract_state_size + self.num_actions
         nnd_output = self.abstract_state_size + 1
@@ -59,17 +59,3 @@ class Config:
         self.nnp_layers = [nnp_input, 128, 64, nnp_output]
         self.nnp_activations = ['relu', 'relu']
 
-    def set_small(self):
-        """Sett små parametre for rask testing/debugging."""
-        self.grid_size = 3
-        self.num_episodes = 100
-        self.steps_per_episode = 30
-        self.num_mcts_searches = 20
-        self.max_search_depth = 4
-        self.abstract_state_size = 16
-        self.lookback_q = 0
-        self.rollout_w = 4
-        self.minibatch_size = 16
-        self.training_interval = 1
-        self._compute_network_sizes()
-        return self

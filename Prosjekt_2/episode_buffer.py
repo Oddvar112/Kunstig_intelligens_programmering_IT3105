@@ -18,10 +18,8 @@ class EpisodeBuffer:
         self.max_size = 200  # behold flere episoder for mer stabil trening
 
     def add_episode(self, episode_data):
-        """Legg til en episode i bufferet.
-
-        Args:
-            episode_data: liste av [state_array, value, policy, action, reward]
+        """
+        Legg til en episode i bufferet.
         """
         self.episodes.append(episode_data)
         # Fjern eldste episode hvis bufferet er fullt
@@ -29,20 +27,6 @@ class EpisodeBuffer:
             self.episodes.pop(0)
 
     def sample_minibatch(self):
-        """Trekk en tilfeldig minibatch for BPTT-trening.
-
-        For hver sample:
-        1. Velg tilfeldig episode og tilfeldig state index k
-        2. Hent states S = {s_{k-q}, ..., s_k} (pad med blanke)
-        3. Hent actions A = {a_{k+1}, ..., a_{k+w}}
-        4. Hent target policies = {pi_k, ..., pi_{k+w}}
-        5. Hent target values = {v_k, ..., v_{k+w}}
-        6. Hent target rewards = {r_{k+1}, ..., r_{k+w}}
-
-        Returns:
-            liste av (states_flat, actions, target_policies, target_values, target_rewards)
-            eller None hvis ikke nok data
-        """
         if len(self.episodes) == 0:
             return None
 

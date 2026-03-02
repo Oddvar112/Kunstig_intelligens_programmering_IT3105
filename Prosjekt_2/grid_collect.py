@@ -1,12 +1,3 @@
-"""GridCollect - Enkelt grid-basert samle-spill for MuZero.
-
-Agent beveger seg på et NxN rutenett og skal samle en mål-boks.
-Når mål nås, spawner den på en ny tilfeldig posisjon.
-
-Handlinger: UP=0, RIGHT=1, DOWN=2, LEFT=3
-Reward: +1.0 ved å nå mål, -0.01 per steg ellers
-"""
-
 import numpy as np
 
 
@@ -61,7 +52,7 @@ class GridCollect:
         new_agent_pos = (row, col)
 
         if new_agent_pos == state.target_pos:
-            reward = 10.0  # Høyere reward for å nå mål
+            reward = 1.0  # Høyere reward for å nå mål
             # Respawn mål på ny posisjon
             new_target = new_agent_pos
             while new_target == new_agent_pos:
