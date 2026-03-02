@@ -1,3 +1,12 @@
+"""Reinforcement Learning Manager for MuZero.
+
+Denne modulen implementerer hovedtreningsløkken for MuZero-algoritmen.
+RLManager koordinerer spilling av episoder, MCTS-søk, datainnsamling,
+og trening av de tre nettverkene.
+
+Følger EPISODE_LOOP pseudokoden fra oppgaven.
+"""
+
 import numpy as np
 import jax
 import jax.numpy as jnp
@@ -7,8 +16,14 @@ from datetime import datetime
 
 class RLManager:
     """
-    Implementerer EPISODE_LOOP pseudokoden fra oppgaven.
+    Reinforcement Learning Manager - koordinerer MuZero-trening.
+    Implementerer hovedløkken som:
+    1. Initialiserer nettverksparametere
+    2. Kjører episoder med MCTS-guidet spilling
+    3. Samler treningsdata i buffer
+    4. Trener nettverkene periodisk
     """
+
 
     def __init__(self, config, game_manager, trinet_manager, mcts, episode_buffer):
         self.config = config
@@ -169,6 +184,11 @@ class RLManager:
         return psi_params, reward_history, loss_history, training_stats
 
     def _gather_lookback_states(self, state_history, k):
+        """
+        Samle lookback states for representasjonsinput.
+        Henter de siste q+1 states fra historikk, med padding
+        for tidlige steg hvor det ikke finnes nok historikk.
+        """
         q = self.config.lookback_q
         states = []
 
@@ -183,6 +203,10 @@ class RLManager:
         return states
 
     def play_episode(self, psi_params, render=False):
+        """
+        Spill en episode med ren policy (uten MCTS).
+        Brukes for evaluering av lært policy.
+        """
         state = self.game.reset()
         state_history = []
         total_reward = 0.0
@@ -216,8 +240,9 @@ class RLManager:
 
         return total_reward
 
-    # ==================== LOGGING METHODS ==================== for feilsøkning og som jeg brukte mens jeg trente den
-    
+    # ==================== LOGGING ====================
+    # Disse metodene brukes for feilsøkning og monitorering under trening
+
     def _log(self, message, detailed=False):
         """Skriv til loggfil."""
         log_path = self.detailed_log_file if detailed else self.log_file
