@@ -1,12 +1,31 @@
+"""
+Monte Carlo Tree Search (MCTS) for MuZero.
+
+Implementerer u-MCTS som bruker nevrale nettverk for:
+- Dynamics: predikere neste state og reward
+- Prediction: predikere policy og value
+
+Bruker PUCT (Polynomial Upper Confidence Trees) for tree policy.
+"""
+
+import math
+
 import numpy as np
 import jax.numpy as jnp
-import math
 
 
 class MCTSNode:
-    """Node i u-MCTS treet.
+    """Node i MCTS-treet.
 
-    Hvert node representerer en abstract state i søketreet.
+    Attributter:
+        abstract_state: Abstract state-vektor fra representation network
+        parent: Forelder-node
+        action: Handling som førte til dette nodet
+        reward: Belønning fra å ta handlingen
+        prior: Prior probability fra policy network
+        children: Dict med action -> child node
+        visit_count: Antall besøk
+        total_value: Sum av verdier fra backpropagation
     """
 
     def __init__(self, abstract_state, parent=None, action=None, reward=0.0, prior=0.0):
@@ -33,13 +52,13 @@ class UMCTS:
     """MuZero Monte Carlo Tree Search.
 
     Bruker abstract states fra nevrale nettverk for søk.
-    Ren Python - ikke JAX-traced.
     """
 
     def __init__(self, config, trinet_manager):
         self.config = config
         self.trinet = trinet_manager
         self.num_actions = config.num_actions
+        self.last_root = None
 
     def search(self, psi_params, root_abstract_state, legal_actions):
         """Utfør MCTS-søk og returner policy og value.
@@ -101,17 +120,13 @@ class UMCTS:
         # Beregn policy fra visit counts
         policy = self._compute_policy(root, legal_actions)
         value = root.q_value if root.visit_count > 0 else float(init_value)
-        
-        # Lagre root for logging
         self.last_root = root
-
         return policy, value
 
     def _tree_policy(self, node, min_q, max_q):
         """Traverser treet med PUCT til et leaf node.
 
-        PUCT med normalisert Q-verdi:
-        score = normalized_Q + c_puct * P(s,a) * sqrt(N_parent) / (1 + N_child)
+        PUCT score = normalized_Q + c_puct * P(s,a) * sqrt(N_parent) / (1 + N_child)
 
         Returns:
             (leaf_node, depth)
@@ -178,9 +193,7 @@ class UMCTS:
         """Utfør rollout fra et node med NNp og NNd.
 
         Følger pseudokoden DO_ROLLOUT fra oppgaven.
-
-        Returns:
-            liste med rewards (inkludert final value)
+        Sampler actions fra policy og simulerer fremover.
         """
         sigma = node.abstract_state
         accum_rewards = []
@@ -209,7 +222,6 @@ class UMCTS:
 
         Følger pseudokoden DO_BACKPROPAGATION fra oppgaven.
         Beregner diskontert sum og propagerer oppover med edge rewards.
-        
         node.reward representerer belønningen fra å ta handlingen som førte til node.
         """
         gamma = self.config.discount_factor
@@ -238,6 +250,7 @@ class UMCTS:
     def _compute_policy(self, root, legal_actions):
         """Beregn policy fra visit counts i root.
 
+        Bruker temperaturskalert softmax over visit counts:
         policy[a] = N(root, a)^(1/tau) / sum(N(root, a')^(1/tau))
         """
         visit_counts = np.zeros(self.num_actions, dtype=np.float32)
