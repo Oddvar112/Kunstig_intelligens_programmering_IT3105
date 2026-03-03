@@ -6,7 +6,7 @@ class Config:
         self.grid_size = 4
 
         # ==================== EPISODE LOOP ====================
-        self.num_episodes = 5000        # Ne: totalt antall episoder
+        self.num_episodes = 16000        # Ne: totalt antall episoder
         self.steps_per_episode = 50     # Nes: maks steg per episode
         self.training_interval = 1      # It: tren Psi hver It episode
 
