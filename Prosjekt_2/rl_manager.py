@@ -11,6 +11,7 @@ import numpy as np
 import jax
 import jax.numpy as jnp
 import os
+import pickle
 from datetime import datetime
 
 
@@ -174,6 +175,11 @@ class RLManager:
             'max_prob_history': max_prob_history,
             'collections_history': collections_history
         }
+        
+        # Lagre psi_params til fil
+        with open('psi_params.pkl', 'wb') as f:
+            pickle.dump(psi_params, f)
+        
         return psi_params, reward_history, loss_history, training_stats
 
     def _gather_lookback_states(self, state_history, k):
