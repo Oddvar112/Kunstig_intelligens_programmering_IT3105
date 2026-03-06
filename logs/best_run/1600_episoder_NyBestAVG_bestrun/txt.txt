@@ -1,0 +1,528 @@
+16000: Reward=  11.62, Avg(10)=  15.36, Loss=1.7505, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.68
+  Value range: 6.41 to 9.69
+Values: min=6.41, max=9.69, avg=8.03
+Rewards: sum=13.64, Policy entropy=0.006, Avg max prob=0.998
+Episode 15850/16000: Reward=  13.64, Avg(10)=  15.46, Loss=1.7917, Buffer=200
+  -> Eval (ren policy): Gj.snitt=18.89
+  Value range: 5.96 to 9.08
+Values: min=5.96, max=9.08, avg=7.97
+Rewards: sum=15.66, Policy entropy=0.013, Avg max prob=0.992
+Episode 15860/16000: Reward=  15.66, Avg(10)=  14.25, Loss=1.8198, Buffer=200
+  -> Eval (ren policy): Gj.snitt=19.30
+  Value range: 6.38 to 9.48
+Values: min=6.38, max=9.48, avg=8.04
+Rewards: sum=15.66, Policy entropy=0.000, Avg max prob=1.000
+Episode 15870/16000: Reward=  15.66, Avg(10)=  15.46, Loss=1.8545, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.68
+  Value range: 6.07 to 9.59
+Values: min=6.07, max=9.59, avg=7.92
+Rewards: sum=16.67, Policy entropy=0.005, Avg max prob=0.999
+Episode 15880/16000: Reward=  16.67, Avg(10)=  15.86, Loss=1.7836, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.68
+  Value range: 5.71 to 9.28
+Values: min=5.71, max=9.28, avg=7.79
+Rewards: sum=15.66, Policy entropy=0.000, Avg max prob=1.000
+Episode 15890/16000: Reward=  15.66, Avg(10)=  15.56, Loss=1.7596, Buffer=200
+  -> Eval (ren policy): Gj.snitt=16.87
+  Value range: 6.15 to 9.45
+Values: min=6.15, max=9.45, avg=8.09
+Rewards: sum=17.68, Policy entropy=0.000, Avg max prob=1.000
+Episode 15900/16000: Reward=  17.68, Avg(10)=  16.47, Loss=1.7237, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.28
+  Value range: 6.20 to 9.54
+Values: min=6.20, max=9.54, avg=8.12
+Rewards: sum=18.69, Policy entropy=0.013, Avg max prob=0.992
+Episode 15910/16000: Reward=  18.69, Avg(10)=  16.37, Loss=1.8032, Buffer=200
+  -> Eval (ren policy): Gj.snitt=15.26
+  Value range: 6.69 to 9.55
+Values: min=6.69, max=9.55, avg=8.25
+Rewards: sum=17.68, Policy entropy=0.000, Avg max prob=1.000
+Episode 15920/16000: Reward=  17.68, Avg(10)=  16.77, Loss=1.7659, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.07
+  Value range: 6.16 to 9.14
+Values: min=6.16, max=9.14, avg=8.06
+Rewards: sum=15.66, Policy entropy=0.012, Avg max prob=0.994
+Episode 15930/16000: Reward=  15.66, Avg(10)=  14.95, Loss=1.7897, Buffer=200
+  -> Eval (ren policy): Gj.snitt=18.29
+  Value range: 6.50 to 9.42
+Values: min=6.50, max=9.42, avg=8.12
+Rewards: sum=15.66, Policy entropy=0.000, Avg max prob=1.000
+Episode 15940/16000: Reward=  15.66, Avg(10)=  16.47, Loss=1.8347, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.28
+  Value range: 6.37 to 9.31
+Values: min=6.37, max=9.31, avg=7.77
+Rewards: sum=14.65, Policy entropy=0.000, Avg max prob=1.000
+Episode 15950/16000: Reward=  14.65, Avg(10)=  15.36, Loss=1.8272, Buffer=200
+  -> Eval (ren policy): Gj.snitt=18.29
+  Value range: 6.11 to 9.17
+Values: min=6.11, max=9.17, avg=8.03
+Rewards: sum=16.67, Policy entropy=0.001, Avg max prob=1.000
+Episode 15960/16000: Reward=  16.67, Avg(10)=  15.66, Loss=1.7305, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.68
+  Value range: 6.12 to 9.28
+Values: min=6.12, max=9.28, avg=8.08
+Rewards: sum=18.69, Policy entropy=0.005, Avg max prob=0.999
+Episode 15970/16000: Reward=  18.69, Avg(10)=  17.58, Loss=1.7383, Buffer=200
+  -> Eval (ren policy): Gj.snitt=17.28
+  Value range: 6.31 to 9.54
+Values: min=6.31, max=9.54, avg=8.10
+Rewards: sum=15.66, Policy entropy=0.002, Avg max prob=0.999
+Episode 15980/16000: Reward=  15.66, Avg(10)=  15.96, Loss=1.7830, Buffer=200
+  -> Eval (ren policy): Gj.snitt=20.71
+  Value range: 6.41 to 9.15
+Values: min=6.41, max=9.15, avg=8.10
+Rewards: sum=17.68, Policy entropy=0.000, Avg max prob=1.000
+Episode 15990/16000: Reward=  17.68, Avg(10)=  15.26, Loss=1.7562, Buffer=200
+  -> Eval (ren policy): Gj.snitt=18.89
+Episode 15999/16000: Reward=  19.70, Avg(10)=  16.47, Loss=1.7346, Buffer=200
+
+Trening fullført!
+Logg skrevet til: logs\training_20260306_073730.log
+Detaljert logg: logs\detailed_20260306_073730.log
+Resultater lagret til muzero_results.png
+Lagret: reward_per_episode.png
+Lagret: reward_moving_average.png
+Lagret: cumulative_reward.png
+Lagret: reward_distribution.png
+Lagret: episode_improvement.png
+Lagret: reward_stability.png
+Lagret: loss_detailed.png
+Lagret: policy_entropy.png
+Lagret: policy_confidence.png
+Lagret: collections_per_episode.png
+Lagret: dashboard.png
+Lagret: moving_average_only.png
+
+=== Alle plots generert ===
+Plots lagret:
+  1. muzero_results.png - Kombinert oversikt (original)
+  2. reward_per_episode.png - Kun reward per episode
+  3. reward_moving_average.png - Glidende gjennomsnitt (10, 25, 50, 100)
+  4. cumulative_reward.png - Kumulativ reward
+  5. reward_distribution.png - Histogram av rewards
+  6. episode_improvement.png - Endring mellom episoder
+  7. reward_stability.png - Rolling standardavvik
+  8. loss_detailed.png - Detaljert loss-analyse
+  9. policy_entropy.png - Policy entropy over tid
+ 10. policy_confidence.png - Policy konfidens over tid
+ 11. collections_per_episode.png - Mål samlet per episode
+ 12. dashboard.png - Dashboard med alle viktige metrics
+ 13. moving_average_only.png - Kun glidende gjennomsnitt
+
+==================================================
+Sammenligning: Tilfeldig vs Trent policy
+==================================================
+Tilfeldig spilling:  Gj.snitt=   1.77, Std= 2.04
+Trent policy:        Gj.snitt=  17.93, Std= 1.91
+Forbedring:           +16.16
+
+==================================================
+DEMO: Spiller med trent policy (uten MCTS)
+==================================================
+
+--- Demo episode 1 ---
+
+Steg 0, Policy: [0.8224951  0.12164638 0.03571623 0.02014231], Value: 7.570, Action: 0
++----+
+|....|
+|...X|
+|....|
+|..A.|
++----+
+
+Steg 1, Policy: [0.5322427  0.3341452  0.07951768 0.05409443], Value: 8.067, Action: 0
++----+
+|....|
+|...X|
+|..A.|
+|....|
++----+
+
+Steg 2, Policy: [0.02787559 0.9378062  0.02130673 0.01301154], Value: 8.902, Action: 1
++----+
+|....|
+|..AX|
+|....|
+|....|
++----+
+
+Steg 3, Policy: [0.02786584 0.04400591 0.04125262 0.8868756 ], Value: 7.005, Action: 3
++----+
+|....|
+|...A|
+|X...|
+|....|
++----+
+
+Steg 4, Policy: [0.03976604 0.03423076 0.0543163  0.8716869 ], Value: 7.682, Action: 3
++----+
+|....|
+|..A.|
+|X...|
+|....|
++----+
+
+Steg 5, Policy: [0.04381595 0.02974549 0.70501614 0.22142243], Value: 8.193, Action: 2
++----+
+|....|
+|.A..|
+|X...|
+|....|
++----+
+
+Steg 6, Policy: [0.0166088  0.00929484 0.03482906 0.93926734], Value: 8.830, Action: 3
++----+
+|....|
+|....|
+|XA..|
+|....|
++----+
+
+Steg 7, Policy: [0.872761   0.06612724 0.02634345 0.03476824], Value: 7.515, Action: 0
++----+
+|.X..|
+|....|
+|A...|
+|....|
++----+
+
+Steg 8, Policy: [0.83879095 0.08710449 0.02446827 0.04963628], Value: 8.212, Action: 0
++----+
+|.X..|
+|A...|
+|....|
+|....|
++----+
+
+Steg 9, Policy: [0.17632796 0.7094259  0.04639436 0.06785186], Value: 8.668, Action: 1
++----+
+|AX..|
+|....|
+|....|
+|....|
++----+
+
+Steg 10, Policy: [0.06085889 0.9057895  0.01279348 0.02055814], Value: 7.939, Action: 1
++----+
+|.A.X|
+|....|
+|....|
+|....|
++----+
+
+Steg 11, Policy: [0.04399848 0.91647893 0.02512229 0.01440033], Value: 8.655, Action: 1
++----+
+|..AX|
+|....|
+|....|
+|....|
++----+
+
+Steg 12, Policy: [0.04443327 0.05710427 0.8568683  0.04159417], Value: 7.040, Action: 2
++----+
+|...A|
+|....|
+|....|
+|..X.|
++----+
+
+Steg 13, Policy: [0.05077785 0.06114097 0.82834685 0.05973429], Value: 7.408, Action: 2
++----+
+|....|
+|...A|
+|....|
+|..X.|
++----+
+
+Steg 14, Policy: [0.03283053 0.04599713 0.8158277  0.10534468], Value: 8.077, Action: 2
++----+
+|....|
+|....|
+|...A|
+|..X.|
++----+
+
+Steg 15, Policy: [0.06800347 0.06398531 0.1665119  0.70149934], Value: 8.458, Action: 3
++----+
+|....|
+|....|
+|....|
+|..XA|
++----+
+
+Steg 16, Policy: [0.94462126 0.03138193 0.01145822 0.01253866], Value: 8.376, Action: 0
++----+
+|....|
+|..X.|
+|....|
+|..A.|
++----+
+
+Steg 17, Policy: [0.9670364  0.01180737 0.00648012 0.01467607], Value: 9.015, Action: 0
++----+
+|....|
+|..X.|
+|..A.|
+|....|
++----+
+
+Steg 18, Policy: [0.73965067 0.16940595 0.05916626 0.03177706], Value: 7.947, Action: 0
++----+
+|...X|
+|..A.|
+|....|
+|....|
++----+
+
+Steg 19, Policy: [0.04399848 0.91647893 0.02512229 0.01440033], Value: 8.655, Action: 1
++----+
+|..AX|
+|....|
+|....|
+|....|
++----+
+
+Steg 20, Policy: [0.05021762 0.04185068 0.0162499  0.8916818 ], Value: 8.183, Action: 3
++----+
+|.X.A|
+|....|
+|....|
+|....|
++----+
+
+Steg 21, Policy: [0.101922   0.01818904 0.00817376 0.87171525], Value: 8.766, Action: 3
++----+
+|.XA.|
+|....|
+|....|
+|....|
++----+
+
+Steg 22, Policy: [0.06923342 0.04009648 0.6895051  0.20116498], Value: 6.737, Action: 2
++----+
+|.A..|
+|....|
+|....|
+|X...|
++----+
+
+Steg 23, Policy: [0.02683744 0.03606891 0.8975434  0.03955021], Value: 7.383, Action: 2
++----+
+|....|
+|.A..|
+|....|
+|X...|
++----+
+
+Steg 24, Policy: [0.03018717 0.01915029 0.82578623 0.12487634], Value: 8.039, Action: 2
++----+
+|....|
+|....|
+|.A..|
+|X...|
++----+
+
+Steg 25, Policy: [0.03170432 0.03062708 0.11236589 0.8253027 ], Value: 8.564, Action: 3
++----+
+|....|
+|....|
+|....|
+|XA..|
++----+
+
+Steg 26, Policy: [0.6933392  0.2031669  0.07509194 0.02840192], Value: 6.645, Action: 0
++----+
+|....|
+|...X|
+|....|
+|A...|
++----+
+
+Steg 27, Policy: [0.05277051 0.91274625 0.02055016 0.01393306], Value: 7.073, Action: 1
++----+
+|....|
+|...X|
+|A...|
+|....|
++----+
+
+Steg 28, Policy: [0.08610205 0.8695947  0.0253673  0.01893597], Value: 7.432, Action: 1
++----+
+|....|
+|...X|
+|.A..|
+|....|
++----+
+
+Steg 29, Policy: [0.5322427  0.3341452  0.07951768 0.05409443], Value: 8.067, Action: 0
++----+
+|....|
+|...X|
+|..A.|
+|....|
++----+
+
+Steg 30, Policy: [0.02787559 0.9378062  0.02130673 0.01301154], Value: 8.902, Action: 1
++----+
+|....|
+|..AX|
+|....|
+|....|
++----+
+
+Steg 31, Policy: [0.0636656  0.055933   0.02880428 0.85159713], Value: 7.295, Action: 3
++----+
+|....|
+|X..A|
+|....|
+|....|
++----+
+
+Steg 32, Policy: [0.02779534 0.01478012 0.01323344 0.9441911 ], Value: 8.208, Action: 3
++----+
+|....|
+|X.A.|
+|....|
+|....|
++----+
+
+Steg 33, Policy: [0.02498268 0.00711006 0.02857579 0.93933153], Value: 8.891, Action: 3
++----+
+|....|
+|XA..|
+|....|
+|....|
++----+
+
+Steg 34, Policy: [0.01958706 0.10181255 0.86449575 0.01410465], Value: 7.117, Action: 2
++----+
+|....|
+|A...|
+|....|
+|..X.|
++----+
+
+Steg 35, Policy: [0.03711273 0.20443994 0.7194432  0.03900416], Value: 7.646, Action: 1
++----+
+|....|
+|....|
+|A...|
+|..X.|
++----+
+
+Steg 36, Policy: [0.0209365  0.08215704 0.8739364  0.02296998], Value: 8.230, Action: 2
++----+
+|....|
+|....|
+|.A..|
+|..X.|
++----+
+
+Steg 37, Policy: [0.03018758 0.881673   0.07499083 0.01314869], Value: 8.857, Action: 1
++----+
+|....|
+|....|
+|....|
+|.AX.|
++----+
+
+Steg 38, Policy: [0.02744794 0.90154785 0.05826323 0.01274099], Value: 8.583, Action: 1
++----+
+|....|
+|....|
+|....|
+|..AX|
++----+
+
+Steg 39, Policy: [0.8370908  0.10437948 0.03085442 0.02767529], Value: 8.718, Action: 0
++----+
+|....|
+|....|
+|...X|
+|...A|
++----+
+
+Steg 40, Policy: [0.01575194 0.02775575 0.04198352 0.91450876], Value: 6.770, Action: 3
++----+
+|....|
+|....|
+|...A|
+|X...|
++----+
+
+Steg 41, Policy: [0.0232441  0.03458587 0.07223867 0.86993134], Value: 7.393, Action: 3
++----+
+|....|
+|....|
+|..A.|
+|X...|
++----+
+
+Steg 42, Policy: [0.03018717 0.01915029 0.82578623 0.12487634], Value: 8.039, Action: 2
++----+
+|....|
+|....|
+|.A..|
+|X...|
++----+
+
+Steg 43, Policy: [0.03170432 0.03062708 0.11236589 0.8253027 ], Value: 8.564, Action: 3
++----+
+|....|
+|....|
+|....|
+|XA..|
++----+
+
+Steg 44, Policy: [0.79343593 0.04488212 0.10828231 0.05339954], Value: 7.141, Action: 0
++----+
+|X...|
+|....|
+|....|
+|A...|
++----+
+
+Steg 45, Policy: [0.90722305 0.04427182 0.02095361 0.02755154], Value: 7.843, Action: 0
++----+
+|X...|
+|....|
+|A...|
+|....|
++----+
+
+Steg 46, Policy: [0.931246   0.01964274 0.00827749 0.04083375], Value: 8.666, Action: 0
++----+
+|X...|
+|A...|
+|....|
+|....|
++----+
+
+Steg 47, Policy: [0.05001688 0.1500533  0.7519497  0.04798008], Value: 6.027, Action: 2
++----+
+|A...|
+|....|
+|....|
+|...X|
++----+
+
+Steg 48, Policy: [0.02404362 0.10630105 0.85333896 0.01631632], Value: 6.547, Action: 2
++----+
+|....|
+|A...|
+|....|
+|...X|
++----+
+
+Steg 49, Policy: [0.03433825 0.19806333 0.7373604  0.03023806], Value: 6.804, Action: 2
++----+
+|....|
+|....|
+|A...|
+|...X|
++----+
+
+Total reward: 15.66
+
+Gjennomsnittlig demo-reward: 15.66

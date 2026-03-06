@@ -126,15 +126,7 @@ class RLManager:
 
                 state = next_state
 
-            # Beregn faktiske diskonterte avkastninger som verdimål
-            # Erstatter MCTS Q-verdier som er meningsløse tidlig i trening
-            # istedenfor MCTS Q-verdier, da disse er ustabile tidlig i trening, fikk ikke at den lærte
-            gamma = self.config.discount_factor
-            G = 0.0
-            for t in reversed(range(len(episode_data))):
-                G = episode_data[t][4] + gamma * G  # r_t + gamma * G_{t+1}
-                episode_data[t][1] = G
-
+         
             # Log episode summary og samle metrics
             avg_entropy, avg_max_prob, collections = self._log_episode_summary(episode, episode_data, total_reward)
             entropy_history.append(avg_entropy)
