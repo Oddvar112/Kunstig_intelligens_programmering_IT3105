@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MuZero System Architecture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0d0d0d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+
+  svg {
+    max-width: 1300px;
+    width: 100%;
+    height: auto;
+  }
+</style>
+</head>
+<body>
+<svg viewBox="0 0 1250 800" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Background -->
+  <rect width="1250" height="800" fill="#0d0d0d"/>
+
+  <!-- Title -->
+  <text x="625" y="40" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="28" font-weight="700" fill="#f5f0e8">Our System Architecture</text>
+  <text x="625" y="65" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" fill="#555">MuZero Knockoff · GridCollect 4×4 · IT-3105</text>
+
+  <!-- Arrowhead markers -->
+  <defs>
+    <marker id="arr" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="9" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#777"/>
+    </marker>
+    <marker id="arr-gold" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="9" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#c9a84c"/>
+    </marker>
+    <marker id="arr-green" viewBox="0 0 10 6" refX="10" refY="3" markerWidth="9" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 3 L 0 6 z" fill="#7ab87a"/>
+    </marker>
+  </defs>
+
+  <!-- ============ NODES ============ -->
+
+  <!-- Config (top-left) -->
+  <rect x="50" y="100" width="160" height="50" rx="8" fill="#2a2720" stroke="#4a4535" stroke-width="1.5"/>
+  <text x="130" y="123" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="600" fill="#d4cba0">Config</text>
+  <text x="130" y="140" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#777">config.py</text>
+
+  <!-- RLManager (center-left) -->
+  <rect x="350" y="300" width="230" height="60" rx="8" fill="#2a2518" stroke="#8a7a50" stroke-width="2"/>
+  <text x="465" y="327" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="16" font-weight="700" fill="#d4c5a0">RLManager</text>
+  <text x="465" y="347" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#888">rl_manager.py · episode loop</text>
+
+  <!-- GameStateManager (left) -->
+  <rect x="50" y="420" width="210" height="55" rx="8" fill="#1a2518" stroke="#5a7a4a" stroke-width="1.5"/>
+  <text x="155" y="444" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="600" fill="#a8c5a0">GameStateManager</text>
+  <text x="155" y="462" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#6a8a5a">game_manager.py</text>
+
+  <!-- GridCollect (below GSM) -->
+  <rect x="75" y="540" width="160" height="50" rx="8" fill="#152010" stroke="#4a6a3a" stroke-width="1.5"/>
+  <text x="155" y="562" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="13" font-weight="600" fill="#8aaa80">GridCollect</text>
+  <text x="155" y="578" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#5a7a4a">grid_collect.py · 4×4 grid</text>
+
+  <!-- TrinetManager (far right) - ONE big box containing NNs -->
+  <rect x="890" y="150" width="280" height="160" rx="8" fill="#18202a" stroke="#4a6a8a" stroke-width="2"/>
+  <text x="1030" y="177" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="16" font-weight="700" fill="#a0b8d4">TrinetManager</text>
+  <text x="1030" y="197" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#6688aa">trinet.py · BPTT + Adam</text>
+
+  <!-- NNr NNd NNp inside TrinetManager -->
+  <rect x="910" y="215" width="70" height="40" rx="6" fill="#253545" stroke="#4a7a9a" stroke-width="1"/>
+  <text x="945" y="233" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#8ab8d8">NNr</text>
+  <text x="945" y="248" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#5588aa">represent.</text>
+
+  <rect x="990" y="215" width="70" height="40" rx="6" fill="#253545" stroke="#4a7a9a" stroke-width="1"/>
+  <text x="1025" y="233" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#8ab8d8">NNd</text>
+  <text x="1025" y="248" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#5588aa">dynamics</text>
+
+  <rect x="1070" y="215" width="70" height="40" rx="6" fill="#253545" stroke="#4a7a9a" stroke-width="1"/>
+  <text x="1105" y="233" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700" fill="#8ab8d8">NNp</text>
+  <text x="1105" y="248" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="7" fill="#5588aa">prediction</text>
+
+  <text x="1030" y="290" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#446688">neural_nets.py</text>
+
+  <!-- u-MCTS (bottom-right) -->
+  <rect x="870" y="500" width="210" height="55" rx="8" fill="#2a1818" stroke="#8a4a4a" stroke-width="1.5"/>
+  <text x="975" y="524" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="15" font-weight="600" fill="#d4a0a0">u-MCTS</text>
+  <text x="975" y="542" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#8a5555">mcts.py · 100 searches · PUCT</text>
+
+  <!-- EpisodeBuffer (bottom-center) -->
+  <rect x="370" y="700" width="230" height="55" rx="8" fill="#201828" stroke="#6a4a8a" stroke-width="1.5"/>
+  <text x="485" y="724" text-anchor="middle" font-family="DM Sans, sans-serif" font-size="14" font-weight="600" fill="#c5b0d4">EpisodeBuffer</text>
+  <text x="485" y="742" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#7a5a9a">episode_buffer.py · max 200 ep</text>
+
+  <!-- ============ ARROWS ============ -->
+
+  <!-- Config -> RLManager (dashed) -->
+  <path d="M 210 130 L 370 310" fill="none" stroke="#4a4535" stroke-width="1" stroke-dasharray="5,4" marker-end="url(#arr)"/>
+  <text x="260" y="205" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="9" fill="#555">hyperparameters</text>
+
+  <!-- ======= LEFT: RLManager <-> GameStateManager ======= -->
+
+  <!-- RLManager -> GSM: step -->
+  <path d="M 350 330 L 280 330 L 280 420" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="268" y="380" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#888">step</text>
+
+  <!-- GSM -> RLManager: observations & rewards -->
+  <path d="M 260 430 L 330 430 L 330 350 L 350 350" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="342" y="400" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="10" fill="#888">observations</text>
+  <text x="342" y="413" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="10" fill="#888">&amp; rewards</text>
+
+  <!-- GSM <-> GridCollect -->
+  <path d="M 140 475 L 140 540" fill="none" stroke="#5a7a4a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+  <path d="M 170 540 L 170 475" fill="none" stroke="#5a7a4a" stroke-width="1" stroke-dasharray="4,3" marker-end="url(#arr)"/>
+
+  <!-- ======= EPISODE LOOP (gold): RLManager <-> Trinet encode ======= -->
+
+  <!-- RLManager -> Trinet: encode state (via x=780) -->
+  <path d="M 580 305 L 780 305 L 780 170 L 890 170" fill="none" stroke="#c9a84c" stroke-width="2" marker-end="url(#arr-gold)"/>
+  <text x="680" y="298" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a84c">encode state</text>
+
+  <!-- Trinet -> RLManager: abstract state (via x=820) -->
+  <path d="M 890 200 L 820 200 L 820 345 L 580 345" fill="none" stroke="#c9a84c" stroke-width="2" marker-end="url(#arr-gold)"/>
+  <text x="700" y="352" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a84c">abstract state</text>
+
+  <!-- ======= EPISODE LOOP (gold): RLManager <-> u-MCTS ======= -->
+
+  <!-- RLManager -> UMCTS: search (via x=700) -->
+  <path d="M 580 355 L 700 355 L 700 520 L 870 520" fill="none" stroke="#c9a84c" stroke-width="2" marker-end="url(#arr-gold)"/>
+  <text x="712" y="450" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a84c">search</text>
+
+  <!-- UMCTS -> RLManager: action recommendation (via x=660) -->
+  <path d="M 870 540 L 660 540 L 660 360 L 580 360" fill="none" stroke="#c9a84c" stroke-width="2" marker-end="url(#arr-gold)"/>
+  <text x="648" y="500" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a84c">action</text>
+  <text x="648" y="513" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#c9a84c">recommendation</text>
+
+  <!-- ======= FAR RIGHT: u-MCTS <-> TrinetManager (wide spacing) ======= -->
+
+  <!-- UMCTS -> Trinet: simulate (right side) -->
+  <path d="M 1080 500 L 1150 315" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="1162" y="410" text-anchor="start" font-family="JetBrains Mono, monospace" font-size="10" fill="#888">simulate</text>
+
+  <!-- Trinet -> UMCTS: predict (left side, well separated) -->
+  <path d="M 1020 310 L 960 500" fill="none" stroke="#777" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="948" y="410" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#888">predict</text>
+
+  <!-- ======= TRAINING (green): RLManager -> Buffer ======= -->
+
+  <!-- RLManager -> Buffer: store episode -->
+  <path d="M 480 360 L 480 700" fill="none" stroke="#7ab87a" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <text x="468" y="620" text-anchor="end" font-family="JetBrains Mono, monospace" font-size="10" fill="#7ab87a">store episode</text>
+
+  <!-- ======= TRAINING (green): train loop ======= -->
+
+  <!-- RLManager -> Trinet: train networks (via top) -->
+  <path d="M 465 300 L 465 100 L 1030 100 L 1030 150" fill="none" stroke="#7ab87a" stroke-width="1.8" marker-end="url(#arr-green)"/>
+  <text x="750" y="93" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7ab87a">train networks</text>
+
+  <!-- Trinet -> RLManager: update weights (via y=125) -->
+  <path d="M 1000 150 L 1000 125 L 435 125 L 435 300" fill="none" stroke="#7ab87a" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="720" y="118" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#5a8a5a">update weights</text>
+
+  <!-- Buffer -> Trinet: load training data (via far right edge) -->
+  <path d="M 600 725 L 1200 725 L 1200 200 L 1170 200" fill="none" stroke="#7ab87a" stroke-width="1.5" marker-end="url(#arr-green)"/>
+  <text x="910" y="718" text-anchor="middle" font-family="JetBrains Mono, monospace" font-size="10" fill="#7ab87a">load training data</text>
+
+</svg>
+</body>
+</html>
